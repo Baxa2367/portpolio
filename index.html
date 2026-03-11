@@ -1,0 +1,1395 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Projects | Bakbergen</title>
+  <meta name="description" content="Премиальный сайт-портфолио проектов для GitHub Pages" />
+  <style>
+    :root {
+      --bg: #060816;
+      --bg-2: #0b1024;
+      --bg-3: #111735;
+      --panel: rgba(255, 255, 255, 0.07);
+      --border: rgba(255, 255, 255, 0.12);
+      --text: #f5f7ff;
+      --muted: #a9b1d0;
+      --soft: #d9def5;
+      --accent: #8ea8ff;
+      --accent-2: #63f0d2;
+      --accent-3: #d998ff;
+      --shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
+      --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.22);
+      --radius-xl: 30px;
+      --max: 1220px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: Inter, Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 10% 10%, rgba(142,168,255,0.20), transparent 24%),
+        radial-gradient(circle at 88% 14%, rgba(99,240,210,0.12), transparent 18%),
+        radial-gradient(circle at 50% 50%, rgba(217,152,255,0.07), transparent 24%),
+        linear-gradient(180deg, #050814 0%, #08101f 36%, #0a1020 100%);
+      overflow-x: hidden;
+    }
+
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      pointer-events: none;
+      z-index: 0;
+      filter: blur(60px);
+      opacity: .7;
+      border-radius: 50%;
+    }
+
+    body::before {
+      width: 260px;
+      height: 260px;
+      left: -60px;
+      top: 100px;
+      background: rgba(142,168,255,0.18);
+      animation: floatGlow 10s ease-in-out infinite;
+    }
+
+    body::after {
+      width: 280px;
+      height: 280px;
+      right: -90px;
+      top: 320px;
+      background: rgba(99,240,210,0.12);
+      animation: floatGlow 12s ease-in-out infinite reverse;
+    }
+
+    @keyframes floatGlow {
+      0%, 100% { transform: translateY(0) translateX(0); }
+      50% { transform: translateY(-16px) translateX(10px); }
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .container {
+      width: min(var(--max), calc(100% - 32px));
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(6, 8, 22, 0.58);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .nav-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 18px;
+      padding: 16px 0;
+    }
+
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 900;
+      letter-spacing: .2px;
+    }
+
+    .logo-mark {
+      width: 40px;
+      height: 40px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(142,168,255,.85), rgba(99,240,210,.8));
+      box-shadow: 0 10px 25px rgba(142,168,255,0.30);
+      display: grid;
+      place-items: center;
+      color: #08101a;
+      font-weight: 900;
+    }
+
+    .logo-text { color: var(--soft); font-size: 1.05rem; }
+
+    .menu {
+      display: flex;
+      gap: 18px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .menu a {
+      color: var(--muted);
+      font-weight: 500;
+      position: relative;
+      transition: .25s ease;
+    }
+
+    .menu a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -6px;
+      width: 0;
+      height: 2px;
+      border-radius: 10px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      transition: width .25s ease;
+    }
+
+    .menu a:hover { color: var(--text); }
+    .menu a:hover::after { width: 100%; }
+
+    .controls {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .btn,
+    .ghost,
+    .filter-chip,
+    .mobile-toggle,
+    .select {
+      border: none;
+      cursor: pointer;
+      transition: .25s ease;
+      font: inherit;
+    }
+
+    .btn,
+    .ghost,
+    .mobile-toggle,
+    .select {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 13px 16px;
+      border-radius: 16px;
+    }
+
+    .btn {
+      font-weight: 800;
+      color: #08101a;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      box-shadow: 0 18px 40px rgba(142,168,255,.22);
+    }
+
+    .btn:hover,
+    .ghost:hover,
+    .mobile-toggle:hover,
+    .filter-chip:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn.secondary,
+    .ghost,
+    .mobile-toggle,
+    .select {
+      color: var(--text);
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.11);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .select {
+      outline: none;
+      min-width: 90px;
+    }
+
+    .mobile-toggle {
+      display: none;
+      padding-inline: 14px;
+    }
+
+    .hero {
+      padding: 78px 0 34px;
+      position: relative;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.18fr .82fr;
+      gap: 28px;
+      align-items: stretch;
+    }
+
+    .premium-panel,
+    .panel,
+    .toolbar-wrap,
+    .card,
+    .footer-inner,
+    .glass-card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.10), rgba(255,255,255,0.05));
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(16px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .premium-panel,
+    .panel,
+    .card { border-radius: var(--radius-xl); }
+    .toolbar-wrap,
+    .footer-inner,
+    .glass-card { border-radius: 24px; }
+
+    .premium-panel::before,
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,.06), transparent 30%, transparent 60%, rgba(255,255,255,.04));
+      pointer-events: none;
+    }
+
+    .hero-main { padding: 34px; }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+
+    .spark {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent-2), var(--accent));
+      box-shadow: 0 0 14px rgba(99,240,210,0.8);
+    }
+
+    h1 {
+      margin: 0 0 18px;
+      font-size: clamp(2.5rem, 6vw, 5.4rem);
+      line-height: .94;
+      letter-spacing: -2px;
+      max-width: 800px;
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, #ffffff 15%, #b8c7ff 52%, #93ffe6 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero-text,
+    .section-head p,
+    .panel p,
+    .card-desc,
+    .contact-line,
+    .footer-note,
+    .hero-note span,
+    .stat-box span,
+    .mini-label,
+    .glass-text {
+      color: var(--muted);
+    }
+
+    .hero-text {
+      font-size: 1.07rem;
+      line-height: 1.8;
+      max-width: 720px;
+      margin-bottom: 28px;
+    }
+
+    .hero-actions,
+    .tech-line,
+    .tags,
+    .card-actions,
+    .skill-list,
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .hero-actions { margin-bottom: 26px; }
+
+    .hero-notes {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .hero-note,
+    .stat-box,
+    .tech-pill,
+    .tag,
+    .skill-item,
+    .filter-chip {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.09);
+    }
+
+    .hero-note,
+    .stat-box { padding: 16px; border-radius: 20px; }
+    .hero-note strong,
+    .card-title,
+    .panel h3,
+    .section-head h2 { color: var(--text); }
+    .hero-note strong { display: block; margin-bottom: 6px; }
+
+    .hero-side {
+      padding: 26px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      justify-content: space-between;
+    }
+
+    .glass-card { padding: 20px; }
+    .mini-label {
+      font-size: .88rem;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: .14em;
+    }
+
+    .big-stat {
+      font-size: 3rem;
+      font-weight: 900;
+      margin: 0;
+      line-height: 1;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .tech-pill,
+    .tag,
+    .skill-item,
+    .filter-chip {
+      padding: 8px 11px;
+      border-radius: 999px;
+      font-size: .9rem;
+      color: var(--soft);
+    }
+
+    section {
+      padding: 42px 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 16px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-size: clamp(1.6rem, 3vw, 2.7rem);
+      letter-spacing: -.8px;
+    }
+
+    .section-kicker {
+      display: inline-block;
+      color: var(--accent-2);
+      font-size: .85rem;
+      text-transform: uppercase;
+      letter-spacing: .2em;
+      margin-bottom: 12px;
+    }
+
+    .toolbar-wrap { padding: 18px; margin-bottom: 18px; }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .search,
+    #sortSelect {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--text);
+      border-radius: 16px;
+      padding: 13px 15px;
+      outline: none;
+      font: inherit;
+    }
+
+    .search { flex: 1; min-width: 260px; }
+    .search::placeholder { color: #8f97b8; }
+
+    .filter-chip.active,
+    .filter-chip:hover {
+      color: var(--text);
+      border-color: rgba(142,168,255,0.5);
+      background: rgba(142,168,255,0.15);
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .card {
+      display: flex;
+      flex-direction: column;
+      transition: transform .28s ease, border-color .28s ease, box-shadow .28s ease, opacity .3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-7px);
+      border-color: rgba(142,168,255,.32);
+      box-shadow: 0 34px 80px rgba(0,0,0,.42);
+    }
+
+    .card-cover {
+      height: 220px;
+      padding: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(255,255,255,.16), transparent 18%),
+        linear-gradient(135deg, rgba(142,168,255,.34), rgba(99,240,210,.20) 55%, rgba(217,152,255,.18));
+    }
+
+    .card-cover::after {
+      content: "";
+      position: absolute;
+      width: 180px;
+      height: 180px;
+      right: -40px;
+      bottom: -40px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,255,255,0.26), transparent 64%);
+    }
+
+    .card-type,
+    .card-year {
+      position: relative;
+      z-index: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 9px 12px;
+      border-radius: 999px;
+      background: rgba(7, 12, 22, 0.48);
+      border: 1px solid rgba(255,255,255,0.12);
+      backdrop-filter: blur(10px);
+      font-size: .9rem;
+    }
+
+    .card-body {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 13px;
+      flex: 1;
+      position: relative;
+      z-index: 1;
+    }
+
+    .card-title {
+      margin: 0;
+      font-size: 1.25rem;
+      letter-spacing: -.3px;
+    }
+
+    .empty {
+      display: none;
+      text-align: center;
+      padding: 34px 20px;
+      margin-top: 14px;
+      border-radius: 24px;
+      border: 1px dashed rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+    }
+
+    .about-grid,
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .panel { padding: 24px; }
+    .panel h3 { margin-top: 0; margin-bottom: 14px; font-size: 1.25rem; }
+
+    .contact-line {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .contact-line:last-child { border-bottom: none; }
+    .contact-line strong { color: var(--text); }
+
+    .footer {
+      padding: 30px 0 46px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .footer-inner {
+      padding: 18px 20px;
+      text-align: center;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity .8s ease, transform .8s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 1050px) {
+      .hero-grid,
+      .projects-grid,
+      .about-grid,
+      .contact-grid { grid-template-columns: 1fr; }
+      .hero-notes { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 780px) {
+      .menu {
+        display: none;
+        position: absolute;
+        top: calc(100% + 10px);
+        right: 0;
+        width: min(280px, 100%);
+        padding: 14px;
+        border-radius: 18px;
+        background: rgba(8,12,24,0.92);
+        border: 1px solid rgba(255,255,255,0.08);
+        backdrop-filter: blur(16px);
+        box-shadow: var(--shadow);
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .menu.open { display: flex; }
+      .mobile-toggle { display: inline-flex; }
+      .hero { padding-top: 42px; }
+      .hero-main,
+      .hero-side,
+      .panel { padding: 22px; }
+      h1 { letter-spacing: -1.5px; }
+    }
+
+    @media (max-width: 560px) {
+      .container { width: min(var(--max), calc(100% - 20px)); }
+      .controls { gap: 8px; }
+      .stats-grid,
+      .hero-actions { grid-template-columns: 1fr; }
+      .btn,
+      .ghost,
+      .search,
+      .select,
+      #sortSelect { width: 100%; }
+      .toolbar { flex-direction: column; align-items: stretch; }
+      .card-cover { height: 190px; }
+      .hero-main, .hero-side { padding: 18px; }
+      .controls { flex-wrap: wrap; justify-content: flex-end; }
+    }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="container nav-inner">
+      <a href="#home" class="logo">
+        <span class="logo-mark">B</span>
+        <span class="logo-text">Bakbergen Projects</span>
+      </a>
+
+      <nav class="menu" id="menu">
+        <a href="#projects">Проекты</a>
+        <a href="#about">Обо мне</a>
+        <a href="#contact">Контакты</a>
+      </nav>
+
+      <div class="controls" id="controlsWrap">
+        <a class="btn secondary" id="githubProfileLink" href="https://github.com/Baxa2367" target="_blank" rel="noopener">GitHub</a>
+        <button class="mobile-toggle" id="mobileToggle" aria-label="Меню">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="container hero-grid">
+        <div class="premium-panel hero-main reveal">
+          <div class="eyebrow"><span class="spark"></span> <span id="heroEyebrowText">Премиальное портфолио для GitHub Pages</span></div>
+          <h1 id="heroTitle">
+            Я собираю <span class="gradient-text">проекты, идеи и код</span>
+            в одном цифровом пространстве.
+          </h1>
+          <p class="hero-text" id="heroText">
+            Здесь живут мои веб-проекты, Python-приложения, интерфейсы, учебные работы и эксперименты.
+            Не просто список репозиториев, а аккуратная витрина того, что я создаю. Когда проект выглядит достойно,
+            ему уже легче доказать, что он чего-то стоит. Старое правило, которое до сих пор работает как часы.
+          </p>
+
+          <div class="hero-actions">
+            <a class="btn" id="heroViewBtn" href="#projects">Смотреть проекты</a>
+            <a class="btn secondary" id="heroContactBtn" href="#contact">Связаться</a>
+          </div>
+
+          <div class="hero-notes">
+            <div class="hero-note">
+              <strong id="heroNote1Title">Визуал</strong>
+              <span id="heroNote1Text">Глубокий фон, стеклянные панели и премиальная подача без перегруза.</span>
+            </div>
+            <div class="hero-note">
+              <strong id="heroNote2Title">Удобство</strong>
+              <span id="heroNote2Text">Поиск, фильтры, сортировка и ясная структура без хаоса.</span>
+            </div>
+            <div class="hero-note">
+              <strong id="heroNote3Title">GitHub Pages</strong>
+              <span id="heroNote3Text">Всё работает без сервера. Просто залил — и сайт живёт.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="premium-panel hero-side reveal">
+          <div class="glass-card">
+            <div class="mini-label" id="portfolioLabel">Портфолио</div>
+            <p class="big-stat" id="stat-projects">0</p>
+            <p class="glass-text" id="portfolioCountText" style="margin:8px 0 0; line-height:1.6;">проектов уже собрано в витрине</p>
+          </div>
+
+          <div class="stats-grid">
+            <div class="stat-box">
+              <strong id="stat-categories">0</strong>
+              <span id="statCategoriesText">категорий</span>
+            </div>
+            <div class="stat-box">
+              <strong>100%</strong>
+              <span id="statStaticText">статический хостинг</span>
+            </div>
+            <div class="stat-box">
+              <strong>Fast</strong>
+              <span id="statFastText">быстрая загрузка</span>
+            </div>
+            <div class="stat-box">
+              <strong>Clean</strong>
+              <span id="statCleanText">чистый UI</span>
+            </div>
+          </div>
+
+          <div class="glass-card">
+            <div class="mini-label" id="techLabel">Технологии</div>
+            <p class="glass-text" id="techText" style="margin:0; line-height:1.7;">
+              HTML, CSS, JavaScript, GitHub Pages, аккуратная типографика, анимации и структура, которая не стыдится света монитора.
+            </p>
+            <div class="tech-line">
+              <span class="tech-pill">Responsive</span>
+              <span class="tech-pill">Glass UI</span>
+              <span class="tech-pill">Interactive</span>
+              <span class="tech-pill">Portfolio</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <span class="section-kicker" id="projectsKicker">Витрина</span>
+            <h2 id="projectsTitle">Избранные проекты</h2>
+            <p id="projectsText">Здесь собраны работы, которые можно показать преподавателю, заказчику или работодателю без внутренней боли за дизайн.</p>
+          </div>
+        </div>
+
+        <div class="toolbar-wrap reveal">
+          <div class="toolbar">
+            <input id="searchInput" class="search" type="text" placeholder="Поиск по названию, описанию или технологии..." />
+            <select id="sortSelect">
+              <option value="new">Сначала новые</option>
+              <option value="old">Сначала старые</option>
+              <option value="az">По алфавиту A–Z</option>
+              <option value="za">По алфавиту Z–A</option>
+            </select>
+          </div>
+          <div id="chips" class="chips"></div>
+        </div>
+
+        <div id="projectsGrid" class="projects-grid"></div>
+        <div id="emptyState" class="empty">Ничего не найдено. Значит, фильтр слишком строгий — бывает даже у хороших систем.</div>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <span class="section-kicker" id="aboutKicker">Профиль</span>
+            <h2 id="aboutTitle">Обо мне</h2>
+            <p id="aboutText">Коротко, ясно и без пафоса на три этажа.</p>
+          </div>
+        </div>
+
+        <div class="about-grid">
+          <div class="panel reveal">
+            <h3 id="aboutWho">Кто я</h3>
+            <p id="aboutWhoText">
+              Привет. Я Бақберген. Учусь в IT-направлении и собираю проекты, в которых важны не только логика и код,
+              но и впечатление от результата. Мне нравится, когда интерфейс дышит, идея ощущается цельной, а проект выглядит так,
+              будто у него есть характер, а не просто набор div-ов и боли.
+            </p>
+            <div class="skill-list">
+              <span class="skill-item">Python</span>
+              <span class="skill-item">HTML/CSS/JS</span>
+              <span class="skill-item">UI/UX</span>
+              <span class="skill-item">GitHub</span>
+            </div>
+          </div>
+
+          <div class="panel reveal">
+            <h3 id="aboutWork">Как я работаю</h3>
+            <p id="aboutWorkText">
+              Люблю практичный подход: сначала делаем рабочую основу, потом усиливаем логику, затем доводим визуал до состояния,
+              когда сайт уже не хочется прятать от людей. Хороший проект — это не магия. Это вкус, дисциплина и немного здорового упрямства.
+            </p>
+            <div class="skill-list">
+              <span class="skill-item">Структура</span>
+              <span class="skill-item">Чистота кода</span>
+              <span class="skill-item">Презентабельность</span>
+              <span class="skill-item">Рост</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <span class="section-kicker" id="contactKicker">Контакт</span>
+            <h2 id="contactTitle">Связаться со мной</h2>
+            <p id="contactText">Замени данные ниже на свои реальные ссылки — и блок будет полностью готов.</p>
+          </div>
+        </div>
+
+        <div class="contact-grid">
+          <div class="panel reveal">
+            <h3 id="contactsTitle">Контакты</h3>
+            <div class="contact-line"><strong id="contactEmailLabel">Email</strong><span>bakbergenzhumagul71@gmail.com</span></div>
+            <div class="contact-line"><strong>GitHub</strong><span>github.com/Baxa2367</span></div>
+            <div class="contact-line"><strong id="contactTelegramLabel">Telegram</strong><span>@bakbergenzhumagl</span></div>
+          </div>
+
+          <div class="panel reveal">
+            <h3 id="contactPurposeTitle">Зачем этот сайт</h3>
+            <p id="contactPurposeText">
+              Чтобы не терять свои работы в папках, чатах и воспоминаниях уровня «где-то же это точно было».
+              Один сильный сайт-портфолио часто говорит о тебе больше, чем десять случайных репозиториев без описания и лица.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <p class="footer-note"><span id="footerText"></span></p>
+        <span id="year" hidden></span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const translations = {
+        ru: {
+          pageTitle: 'Мои проекты | Bakbergen',
+          navProjects: 'Проекты',
+          navAbout: 'Обо мне',
+          navContact: 'Контакты',
+          githubBtn: 'GitHub',
+          themeLight: '☀ Light',
+          themeDark: '🌙 Dark',
+          heroEyebrow: 'Премиальное портфолио для GitHub Pages',
+          heroTitle1: 'Я собираю',
+          heroTitle2: 'проекты, идеи и код',
+          heroTitle3: 'в одном цифровом пространстве.',
+          heroText: 'Здесь живут мои веб-проекты, Python-приложения, интерфейсы, учебные работы и эксперименты. Не просто список репозиториев, а аккуратная витрина того, что я создаю. Когда проект выглядит достойно, ему уже легче доказать, что он чего-то стоит. Старое правило, которое до сих пор работает как часы.',
+          heroView: 'Смотреть проекты',
+          heroContact: 'Связаться',
+          heroNote1Title: 'Визуал',
+          heroNote1Text: 'Глубокий фон, стеклянные панели и премиальная подача без перегруза.',
+          heroNote2Title: 'Удобство',
+          heroNote2Text: 'Поиск, фильтры, сортировка и ясная структура без хаоса.',
+          heroNote3Title: 'GitHub Pages',
+          heroNote3Text: 'Всё работает без сервера. Просто залил — и сайт живёт.',
+          portfolioLabel: 'Портфолио',
+          portfolioCountText: 'проектов уже собрано в витрине',
+          statCategoriesText: 'категорий',
+          statStaticText: 'статический хостинг',
+          statFastText: 'быстрая загрузка',
+          statCleanText: 'чистый UI',
+          techLabel: 'Технологии',
+          techText: 'HTML, CSS, JavaScript, GitHub Pages, аккуратная типографика, анимации и структура, которая не стыдится света монитора.',
+          sectionProjectsKicker: 'Витрина',
+          sectionProjectsTitle: 'Избранные проекты',
+          sectionProjectsText: 'Здесь собраны работы, которые можно показать преподавателю, заказчику или работодателю без внутренней боли за дизайн.',
+          searchPlaceholder: 'Поиск по названию, описанию или технологии...',
+          sortNew: 'Сначала новые',
+          sortOld: 'Сначала старые',
+          sortAZ: 'По алфавиту A–Z',
+          sortZA: 'По алфавиту Z–A',
+          emptyState: 'Ничего не найдено. Значит, фильтр слишком строгий — бывает даже у хороших систем.',
+          sectionAboutKicker: 'Профиль',
+          sectionAboutTitle: 'Обо мне',
+          sectionAboutText: 'Коротко, ясно и без пафоса на три этажа.',
+          aboutWho: 'Кто я',
+          aboutWhoText: 'Привет. Я Бақберген. Учусь в IT-направлении и собираю проекты, в которых важны не только логика и код, но и впечатление от результата. Мне нравится, когда интерфейс дышит, идея ощущается цельной, а проект выглядит так, будто у него есть характер, а не просто набор div-ов и боли.',
+          aboutWork: 'Как я работаю',
+          aboutWorkText: 'Люблю практичный подход: сначала делаем рабочую основу, потом усиливаем логику, затем доводим визуал до состояния, когда сайт уже не хочется прятать от людей. Хороший проект — это не магия. Это вкус, дисциплина и немного здорового упрямства.',
+          sectionContactKicker: 'Контакт',
+          sectionContactTitle: 'Связаться со мной',
+          sectionContactText: 'Замени данные ниже на свои реальные ссылки — и блок будет полностью готов.',
+          contactsTitle: 'Контакты',
+          contactEmail: 'Email',
+          contactTelegram: 'Telegram',
+          contactPurposeTitle: 'Зачем этот сайт',
+          contactPurposeText: 'Чтобы не терять свои работы в папках, чатах и воспоминаниях уровня «где-то же это точно было». Один сильный сайт-портфолио часто говорит о тебе больше, чем десять случайных репозиториев без описания и лица.',
+          footerText: '© {year} Bakbergen Projects. Сделано для GitHub Pages.',
+          openSite: 'Открыть сайт',
+          allCategories: 'Все'
+        },
+        kz: {
+          pageTitle: 'Менің жобаларым | Bakbergen',
+          navProjects: 'Жобалар',
+          navAbout: 'Мен туралы',
+          navContact: 'Байланыс',
+          githubBtn: 'GitHub',
+          themeLight: '☀ Light',
+          themeDark: '🌙 Dark',
+          heroEyebrow: 'GitHub Pages үшін премиум портфолио',
+          heroTitle1: 'Мен',
+          heroTitle2: 'жобалар, идеялар мен кодты',
+          heroTitle3: 'бір цифрлық кеңістікте жинаймын.',
+          heroText: 'Мұнда менің веб-жобаларым, Python-қосымшаларым, интерфейстерім, оқу жұмыстары мен эксперименттерім орналасқан. Бұл жай ғана репозиторийлер тізімі емес, мен жасайтын дүниелердің ұқыпты витринасы. Жоба лайықты көрінсе, оның өз құнын дәлелдеуі де оңайырақ болады. Ескі қағида, бірақ әлі де мықты жұмыс істейді.',
+          heroView: 'Жобаларды көру',
+          heroContact: 'Байланысу',
+          heroNote1Title: 'Визуал',
+          heroNote1Text: 'Терең фон, әйнек панельдер және артық жүктемесіз премиум стиль.',
+          heroNote2Title: 'Ыңғайлылық',
+          heroNote2Text: 'Іздеу, сүзгілер, сұрыптау және түсінікті құрылым.',
+          heroNote3Title: 'GitHub Pages',
+          heroNote3Text: 'Барлығы серверсіз жұмыс істейді. Жүктедің — сайт дайын.',
+          portfolioLabel: 'Портфолио',
+          portfolioCountText: 'жоба витринада жиналған',
+          statCategoriesText: 'санат',
+          statStaticText: 'статикалық хостинг',
+          statFastText: 'жылдам жүктелу',
+          statCleanText: 'таза UI',
+          techLabel: 'Технологиялар',
+          techText: 'HTML, CSS, JavaScript, GitHub Pages, ұқыпты типография, анимациялар және монитор жарығынан ұялмайтын құрылым.',
+          sectionProjectsKicker: 'Витрина',
+          sectionProjectsTitle: 'Таңдаулы жобалар',
+          sectionProjectsText: 'Мұнда дизайн үшін іштен қысылмай-ақ оқытушыға, тапсырыс берушіге немесе жұмыс берушіге көрсетуге болатын жұмыстар жиналған.',
+          searchPlaceholder: 'Атауы, сипаттамасы немесе технология бойынша іздеу...',
+          sortNew: 'Алдымен жаңалары',
+          sortOld: 'Алдымен ескілері',
+          sortAZ: 'Әліпби бойынша A–Z',
+          sortZA: 'Әліпби бойынша Z–A',
+          emptyState: 'Ештеңе табылмады. Демек, сүзгі тым қатаң — жақсы жүйелерде де солай болып тұрады.',
+          sectionAboutKicker: 'Профиль',
+          sectionAboutTitle: 'Мен туралы',
+          sectionAboutText: 'Қысқа, түсінікті және артық пафоссыз.',
+          aboutWho: 'Мен кіммін',
+          aboutWhoText: 'Сәлем. Мен Бақбергенмін. IT бағыты бойынша оқимын және логика мен код қана емес, нәтиженің әсері де маңызды болатын жобалар жинаймын. Интерфейс тыныстап тұрғанын, идея тұтас сезілетінін және жоба жай div-тер мен ауыртпалық емес, өз мінезі бар дүние болып көрінгенін ұнатамын.',
+          aboutWork: 'Қалай жұмыс істеймін',
+          aboutWorkText: 'Маған практикалық тәсіл ұнайды: алдымен жұмыс істейтін негіз жасаймыз, сосын логиканы күшейтеміз, кейін визуалды адамдардан жасырудың қажеті болмайтын деңгейге жеткіземіз. Жақсы жоба — бұл сиқыр емес. Бұл талғам, тәртіп және аздап қырсықтық.',
+          sectionContactKicker: 'Байланыс',
+          sectionContactTitle: 'Менімен байланысу',
+          sectionContactText: 'Төмендегі деректерді өзіңнің нақты сілтемелеріңе ауыстырсаң, блок толық дайын болады.',
+          contactsTitle: 'Байланыстар',
+          contactEmail: 'Email',
+          contactTelegram: 'Telegram',
+          contactPurposeTitle: 'Бұл сайт не үшін керек',
+          contactPurposeText: 'Жұмыстарымды папкаларда, чаттарда немесе «бір жерде бар еді ғой» деген естеліктерде жоғалтпау үшін. Бір мықты портфолио-сайт кейде сен туралы сипаттамасы жоқ он кездейсоқ репозиторийден де көп нәрсе айтады.',
+          footerText: '© {year} Bakbergen Projects. GitHub Pages үшін жасалған.',
+          openSite: 'Сайтты ашу',
+          allCategories: 'Барлығы'
+        },
+        en: {
+          pageTitle: 'My Projects | Bakbergen',
+          navProjects: 'Projects',
+          navAbout: 'About',
+          navContact: 'Contact',
+          githubBtn: 'GitHub',
+          themeLight: '☀ Light',
+          themeDark: '🌙 Dark',
+          heroEyebrow: 'Premium portfolio for GitHub Pages',
+          heroTitle1: 'I bring',
+          heroTitle2: 'projects, ideas and code',
+          heroTitle3: 'into one digital space.',
+          heroText: 'This is where my web projects, Python apps, interfaces, academic work, and experiments live. Not just a list of repositories, but a clean showcase of what I build. When a project looks worthy, it becomes much easier for it to prove its value. Old rule, still hits the mark.',
+          heroView: 'View projects',
+          heroContact: 'Contact me',
+          heroNote1Title: 'Visuals',
+          heroNote1Text: 'Deep background, glass panels, and premium presentation without overload.',
+          heroNote2Title: 'Usability',
+          heroNote2Text: 'Search, filters, sorting, and a clean structure with no chaos.',
+          heroNote3Title: 'GitHub Pages',
+          heroNote3Text: 'Everything works without a server. Upload it — the site lives.',
+          portfolioLabel: 'Portfolio',
+          portfolioCountText: 'projects already collected in the showcase',
+          statCategoriesText: 'categories',
+          statStaticText: 'static hosting',
+          statFastText: 'fast loading',
+          statCleanText: 'clean UI',
+          techLabel: 'Technologies',
+          techText: 'HTML, CSS, JavaScript, GitHub Pages, refined typography, animation, and a structure that is not embarrassed by monitor light.',
+          sectionProjectsKicker: 'Showcase',
+          sectionProjectsTitle: 'Featured projects',
+          sectionProjectsText: 'These are projects you can show to a teacher, client, or employer without feeling design pain in your soul.',
+          searchPlaceholder: 'Search by title, description, or technology...',
+          sortNew: 'Newest first',
+          sortOld: 'Oldest first',
+          sortAZ: 'Alphabetical A–Z',
+          sortZA: 'Alphabetical Z–A',
+          emptyState: 'Nothing found. That means the filter is too strict — happens even to good systems.',
+          sectionAboutKicker: 'Profile',
+          sectionAboutTitle: 'About me',
+          sectionAboutText: 'Short, clear, and without skyscraper-level pathos.',
+          aboutWho: 'Who I am',
+          aboutWhoText: 'Hi. I\'m Bakbergen. I study in the IT field and build projects where not only logic and code matter, but also the feeling of the final result. I like it when an interface breathes, an idea feels complete, and a project looks like it has character rather than just a pile of divs and suffering.',
+          aboutWork: 'How I work',
+          aboutWorkText: 'I prefer a practical approach: first build a working foundation, then strengthen the logic, and finally polish the visual side until the site no longer needs to hide from people. A good project is not magic. It is taste, discipline, and a bit of healthy stubbornness.',
+          sectionContactKicker: 'Contact',
+          sectionContactTitle: 'Get in touch',
+          sectionContactText: 'Replace the details below with your real links and the block is fully ready.',
+          contactsTitle: 'Contacts',
+          contactEmail: 'Email',
+          contactTelegram: 'Telegram',
+          contactPurposeTitle: 'Why this site exists',
+          contactPurposeText: 'So I do not lose my work in folders, chats, and memories like “it definitely was somewhere.” One strong portfolio site often says more about you than ten random repositories with no description and no face.',
+          footerText: '© {year} Bakbergen Projects. Made for GitHub Pages.',
+          openSite: 'Open site',
+          allCategories: 'All'
+        }
+      };
+
+      const projects = [
+        {
+          title: 'Gesture Mouse Control',
+          category: 'Python',
+          year: 2026,
+          description: {
+            ru: 'Управление мышью через жесты руки с помощью камеры, компьютерного зрения и Python.',
+            kz: 'Камера, компьютерлік көру және Python көмегімен қол қимылдары арқылы тышқанды басқару.',
+            en: 'Mouse control through hand gestures using a camera, computer vision, and Python.'
+          },
+          tags: ['Python', 'OpenCV', 'MediaPipe', 'Computer Vision'],
+          github: 'https://github.com/your-username/gesture-mouse-control',
+          demo: '#'
+        },
+        {
+          title: 'IS Student AI Assistant',
+          category: 'Desktop App',
+          year: 2026,
+          description: {
+            ru: 'Локальный помощник для студента ИС: SQL, ER-диаграммы, нормализация и история проектов.',
+            kz: 'АЖ студентіне арналған жергілікті көмекші: SQL, ER-диаграммалар, нормализация және жобалар тарихы.',
+            en: 'A local assistant for Information Systems students: SQL, ER diagrams, normalization, and project history.'
+          },
+          tags: ['Python', 'CustomTkinter', 'SQLite', 'AI'],
+          github: 'https://github.com/your-username/is-student-ai-assistant',
+          demo: '#'
+        },
+        {
+          title: 'Thermodynamics Crossword',
+          category: 'Web',
+          year: 2025,
+          description: {
+            ru: 'Образовательный кроссворд по термодинамике с интерактивным интерфейсом и учебным уклоном.',
+            kz: 'Интерактивті интерфейсі бар және оқу мақсатына бағытталған термодинамика бойынша білімдік кроссворд.',
+            en: 'An educational thermodynamics crossword with an interactive interface and a study-focused design.'
+          },
+          tags: ['HTML', 'CSS', 'JavaScript', 'Education'],
+          github: 'https://github.com/your-username/thermodynamics-crossword',
+          demo: '#'
+        },
+        {
+          title: 'Project Bloom',
+          category: 'Landing Page',
+          year: 2026,
+          description: {
+            ru: 'Эмоциональный интерактивный сайт-поздравление с красивой визуальной подачей.',
+            kz: 'Әдемі визуалды шешімі бар эмоциялық интерактивті құттықтау сайты.',
+            en: 'An emotional interactive greeting website with a beautiful visual presentation.'
+          },
+          tags: ['HTML', 'CSS', 'Animation'],
+          github: 'https://github.com/your-username/project-bloom',
+          demo: '#'
+        },
+        {
+          title: 'Digital City Infrastructure Simulator',
+          category: 'Simulation',
+          year: 2026,
+          description: {
+            ru: 'Симулятор цифровой городской инфраструктуры с серверами, нагрузкой, сбоями и аналитикой.',
+            kz: 'Серверлер, жүктеме, ақаулар және аналитикасы бар цифрлық қала инфрақұрылымының симуляторы.',
+            en: 'A digital city infrastructure simulator with servers, load, failures, and analytics.'
+          },
+          tags: ['Python', 'Simulation', 'NumPy', 'Matplotlib'],
+          github: 'https://github.com/your-username/digital-city-simulator',
+          demo: '#'
+        },
+        {
+          title: 'Water Info Website',
+          category: 'Web',
+          year: 2024,
+          description: {
+            ru: 'Информационный сайт о воде с выразительным дизайном и образовательной подачей.',
+            kz: 'Айқын дизайны мен білімдік мазмұны бар су туралы ақпараттық сайт.',
+            en: 'An informational website about water with expressive design and educational presentation.'
+          },
+          tags: ['HTML', 'CSS', 'Content'],
+          github: 'https://github.com/your-username/water-info-website',
+          demo: '#'
+        }
+      ];
+
+      const root = document.documentElement;
+      const elements = {
+        menu: document.getElementById('menu'),
+        controlsWrap: document.getElementById('controlsWrap'),
+        githubProfileLink: document.getElementById('githubProfileLink'),
+        mobileToggle: document.getElementById('mobileToggle'),
+        projectsGrid: document.getElementById('projectsGrid'),
+        searchInput: document.getElementById('searchInput'),
+        sortSelect: document.getElementById('sortSelect'),
+        chips: document.getElementById('chips'),
+        emptyState: document.getElementById('emptyState'),
+        statProjects: document.getElementById('stat-projects'),
+        statCategories: document.getElementById('stat-categories'),
+        year: document.getElementById('year'),
+        footerText: document.getElementById('footerText')
+      };
+
+      const requiredElementKeys = ['menu', 'controlsWrap', 'githubProfileLink', 'mobileToggle', 'projectsGrid', 'searchInput', 'sortSelect', 'chips', 'emptyState', 'statProjects', 'statCategories', 'year', 'footerText'];
+      const missing = requiredElementKeys.filter((key) => !elements[key]);
+      if (missing.length) {
+        console.error('Missing required DOM elements:', missing);
+        return;
+      }
+
+      let activeCategory = 'Все';
+      let currentLang = localStorage.getItem('site-language') || 'ru';
+      let currentTheme = localStorage.getItem('site-theme') || 'dark';
+
+      const themeButton = document.createElement('button');
+      themeButton.className = 'btn secondary';
+      themeButton.id = 'themeToggle';
+      themeButton.type = 'button';
+
+      const languageSelect = document.createElement('select');
+      languageSelect.className = 'select';
+      languageSelect.id = 'languageSelect';
+      languageSelect.innerHTML = `
+        <option value="ru">RU</option>
+        <option value="kz">KZ</option>
+        <option value="en">EN</option>
+      `;
+
+      elements.controlsWrap.prepend(languageSelect);
+      elements.controlsWrap.prepend(themeButton);
+
+      const themeStyles = {
+        dark: {
+          '--bg': '#060816',
+          '--bg-2': '#0b1024',
+          '--bg-3': '#111735',
+          '--panel': 'rgba(255, 255, 255, 0.07)',
+          '--border': 'rgba(255, 255, 255, 0.12)',
+          '--text': '#f5f7ff',
+          '--muted': '#a9b1d0',
+          '--soft': '#d9def5',
+          '--accent': '#8ea8ff',
+          '--accent-2': '#63f0d2',
+          '--accent-3': '#d998ff',
+          '--shadow': '0 30px 80px rgba(0, 0, 0, 0.45)',
+          '--shadow-soft': '0 10px 30px rgba(0, 0, 0, 0.22)'
+        },
+        light: {
+          '--bg': '#eef3ff',
+          '--bg-2': '#f6f8ff',
+          '--bg-3': '#dde7ff',
+          '--panel': 'rgba(255, 255, 255, 0.72)',
+          '--border': 'rgba(84, 102, 160, 0.16)',
+          '--text': '#16203d',
+          '--muted': '#5d6b8d',
+          '--soft': '#243252',
+          '--accent': '#5d7cff',
+          '--accent-2': '#25c7a7',
+          '--accent-3': '#b36cff',
+          '--shadow': '0 24px 60px rgba(70, 92, 150, 0.16)',
+          '--shadow-soft': '0 10px 24px rgba(70, 92, 150, 0.12)'
+        }
+      };
+
+      function t(key) {
+        return translations[currentLang]?.[key] || translations.ru[key] || key;
+      }
+
+      function allCategoryLabel() {
+        return t('allCategories');
+      }
+
+      function safeText(id, value) {
+        const node = document.getElementById(id);
+        if (node) node.textContent = value;
+      }
+
+      function applyTheme(theme) {
+        const palette = themeStyles[theme] || themeStyles.dark;
+        Object.entries(palette).forEach(([key, value]) => root.style.setProperty(key, value));
+        document.body.style.background = theme === 'dark'
+          ? 'radial-gradient(circle at 10% 10%, rgba(142,168,255,0.20), transparent 24%), radial-gradient(circle at 88% 14%, rgba(99,240,210,0.12), transparent 18%), radial-gradient(circle at 50% 50%, rgba(217,152,255,0.07), transparent 24%), linear-gradient(180deg, #050814 0%, #08101f 36%, #0a1020 100%)'
+          : 'radial-gradient(circle at 10% 10%, rgba(93,124,255,0.18), transparent 24%), radial-gradient(circle at 88% 14%, rgba(37,199,167,0.14), transparent 18%), radial-gradient(circle at 50% 50%, rgba(179,108,255,0.08), transparent 24%), linear-gradient(180deg, #f4f7ff 0%, #edf2ff 40%, #e7efff 100%)';
+        themeButton.textContent = theme === 'dark' ? t('themeLight') : t('themeDark');
+        localStorage.setItem('site-theme', theme);
+        currentTheme = theme;
+      }
+
+      function toggleTheme() {
+        applyTheme(currentTheme === 'dark' ? 'light' : 'dark');
+      }
+
+      function updateFooter() {
+        const year = new Date().getFullYear();
+        elements.year.textContent = String(year);
+        elements.footerText.textContent = t('footerText').replace('{year}', String(year));
+      }
+
+      function updateStaticText() {
+        document.title = t('pageTitle');
+        const navProjects = elements.menu.querySelector('a[href="#projects"]');
+        const navAbout = elements.menu.querySelector('a[href="#about"]');
+        const navContact = elements.menu.querySelector('a[href="#contact"]');
+        if (navProjects) navProjects.textContent = t('navProjects');
+        if (navAbout) navAbout.textContent = t('navAbout');
+        if (navContact) navContact.textContent = t('navContact');
+
+        elements.githubProfileLink.textContent = t('githubBtn');
+        safeText('heroEyebrowText', t('heroEyebrow'));
+        const heroTitle = document.getElementById('heroTitle');
+        if (heroTitle) {
+          heroTitle.innerHTML = `${t('heroTitle1')} <span class="gradient-text">${t('heroTitle2')}</span> ${t('heroTitle3')}`;
+        }
+        safeText('heroText', t('heroText'));
+        safeText('heroViewBtn', t('heroView'));
+        safeText('heroContactBtn', t('heroContact'));
+        safeText('heroNote1Title', t('heroNote1Title'));
+        safeText('heroNote1Text', t('heroNote1Text'));
+        safeText('heroNote2Title', t('heroNote2Title'));
+        safeText('heroNote2Text', t('heroNote2Text'));
+        safeText('heroNote3Title', t('heroNote3Title'));
+        safeText('heroNote3Text', t('heroNote3Text'));
+        safeText('portfolioLabel', t('portfolioLabel'));
+        safeText('portfolioCountText', t('portfolioCountText'));
+        safeText('statCategoriesText', t('statCategoriesText'));
+        safeText('statStaticText', t('statStaticText'));
+        safeText('statFastText', t('statFastText'));
+        safeText('statCleanText', t('statCleanText'));
+        safeText('techLabel', t('techLabel'));
+        safeText('techText', t('techText'));
+        safeText('projectsKicker', t('sectionProjectsKicker'));
+        safeText('projectsTitle', t('sectionProjectsTitle'));
+        safeText('projectsText', t('sectionProjectsText'));
+        elements.searchInput.placeholder = t('searchPlaceholder');
+        elements.sortSelect.options[0].text = t('sortNew');
+        elements.sortSelect.options[1].text = t('sortOld');
+        elements.sortSelect.options[2].text = t('sortAZ');
+        elements.sortSelect.options[3].text = t('sortZA');
+        elements.emptyState.textContent = t('emptyState');
+        safeText('aboutKicker', t('sectionAboutKicker'));
+        safeText('aboutTitle', t('sectionAboutTitle'));
+        safeText('aboutText', t('sectionAboutText'));
+        safeText('aboutWho', t('aboutWho'));
+        safeText('aboutWhoText', t('aboutWhoText'));
+        safeText('aboutWork', t('aboutWork'));
+        safeText('aboutWorkText', t('aboutWorkText'));
+        safeText('contactKicker', t('sectionContactKicker'));
+        safeText('contactTitle', t('sectionContactTitle'));
+        safeText('contactText', t('sectionContactText'));
+        safeText('contactsTitle', t('contactsTitle'));
+        safeText('contactEmailLabel', t('contactEmail'));
+        safeText('contactTelegramLabel', t('contactTelegram'));
+        safeText('contactPurposeTitle', t('contactPurposeTitle'));
+        safeText('contactPurposeText', t('contactPurposeText'));
+        languageSelect.value = currentLang;
+        updateFooter();
+        applyTheme(currentTheme);
+      }
+
+      function uniqueCategories() {
+        return [allCategoryLabel(), ...new Set(projects.map((project) => project.category))];
+      }
+
+      function renderChips() {
+        elements.chips.innerHTML = '';
+        uniqueCategories().forEach((category) => {
+          const button = document.createElement('button');
+          button.className = `filter-chip ${category === activeCategory ? 'active' : ''}`;
+          button.textContent = category;
+          button.type = 'button';
+          button.addEventListener('click', () => {
+            activeCategory = category;
+            renderChips();
+            renderProjects();
+          });
+          elements.chips.appendChild(button);
+        });
+      }
+
+      function getFilteredProjects() {
+        const query = elements.searchInput.value.trim().toLowerCase();
+        const filtered = projects.filter((project) => {
+          const description = typeof project.description === 'string' ? project.description : project.description[currentLang];
+          const matchesSearch = project.title.toLowerCase().includes(query)
+            || description.toLowerCase().includes(query)
+            || project.tags.join(' ').toLowerCase().includes(query);
+          const matchesCategory = activeCategory === allCategoryLabel() || project.category === activeCategory;
+          return matchesSearch && matchesCategory;
+        });
+
+        switch (elements.sortSelect.value) {
+          case 'old':
+            filtered.sort((a, b) => a.year - b.year);
+            break;
+          case 'az':
+            filtered.sort((a, b) => a.title.localeCompare(b.title));
+            break;
+          case 'za':
+            filtered.sort((a, b) => b.title.localeCompare(a.title));
+            break;
+          default:
+            filtered.sort((a, b) => b.year - a.year);
+        }
+
+        return filtered;
+      }
+
+      function projectCard(project) {
+        const description = typeof project.description === 'string' ? project.description : project.description[currentLang];
+        return `
+          <article class="card reveal">
+            <div class="card-cover">
+              <span class="card-type">${project.category}</span>
+              <span class="card-year">${project.year}</span>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">${project.title}</h3>
+              <p class="card-desc">${description}</p>
+              <div class="tags">
+                ${project.tags.map((tag) => `<span class="tag">${tag}</span>`).join('')}
+              </div>
+              <div class="card-actions">
+                <a class="btn" href="${project.github}" target="_blank" rel="noopener">GitHub</a>
+                <a class="ghost" href="${project.demo}" target="_blank" rel="noopener">${t('openSite')}</a>
+              </div>
+            </div>
+          </article>
+        `;
+      }
+
+      let revealObserver;
+      function runReveal() {
+        const revealElements = document.querySelectorAll('.reveal');
+        if (revealObserver) revealObserver.disconnect();
+        revealObserver = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) entry.target.classList.add('visible');
+          });
+        }, { threshold: 0.12 });
+        revealElements.forEach((element) => revealObserver.observe(element));
+      }
+
+      function renderProjects() {
+        const filtered = getFilteredProjects();
+        elements.projectsGrid.innerHTML = filtered.map(projectCard).join('');
+        elements.emptyState.style.display = filtered.length ? 'none' : 'block';
+        runReveal();
+      }
+
+      function updateStats() {
+        elements.statProjects.textContent = String(projects.length);
+        elements.statCategories.textContent = String(new Set(projects.map((project) => project.category)).size);
+        updateFooter();
+      }
+
+      function setLanguage(lang) {
+        currentLang = translations[lang] ? lang : 'ru';
+        localStorage.setItem('site-language', currentLang);
+        activeCategory = allCategoryLabel();
+        updateStaticText();
+        renderChips();
+        renderProjects();
+      }
+
+      elements.searchInput.addEventListener('input', renderProjects);
+      elements.sortSelect.addEventListener('change', renderProjects);
+      themeButton.addEventListener('click', toggleTheme);
+      languageSelect.addEventListener('change', (event) => setLanguage(event.target.value));
+      elements.mobileToggle.addEventListener('click', () => elements.menu.classList.toggle('open'));
+      elements.menu.querySelectorAll('a').forEach((link) => {
+        link.addEventListener('click', () => elements.menu.classList.remove('open'));
+      });
+
+      updateStats();
+      setLanguage(currentLang);
+      runReveal();
+
+      console.assert(!!document.getElementById('year'), 'Test failed: #year should exist');
+      console.assert(!!document.getElementById('footerText'), 'Test failed: #footerText should exist');
+      console.assert(document.getElementById('footerText').textContent.includes(String(new Date().getFullYear())), 'Test failed: footer should contain current year');
+      console.assert(document.getElementById('languageSelect').value === currentLang, 'Test failed: language select should reflect current language');
+    });
+  </script>
+</body>
+</html>
